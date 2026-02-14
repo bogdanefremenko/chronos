@@ -1,0 +1,42 @@
+@import 'tailwindcss';
+
+@theme {
+  --color-bg-dark: hsl(0, 0%, 0%);
+  --color-bg: hsl(0, 0%, 5%);
+  --color-bg-light: hsl(0, 0%, 10%);
+
+  --color-border: hsl(0, 0%, 15%);
+
+  --color-text: hsl(0, 0%, 95%);
+  --color-text-muted: hsl(0, 0%, 70%);
+
+  --color-primary: hsl(270, 70%, 60%);
+  --color-danger: hsl(0, 100%, 50%);
+  --color-warning: hsl(40, 100%, 50%);
+  --color-success: hsl(145, 100%, 50%);
+  --color-info: hsl(200, 100%, 50%);
+
+  --shadow-glow: 0 0 15px rgba(139, 92, 246, 0.3);
+}
+
+@keyframes gradient-shift {
+  0% {
+    background-position: 0% center;
+  }
+  100% {
+    background-position: 200% center;
+  }
+}
+
+@utility text-gradient-animate {
+  background: linear-gradient(
+    135deg,
+    hsl(270, 50%, 85%) 0%,
+    hsl(270, 70%, 60%) 20%,
+    hsl(270, 70%, 60%) 100%
+  );
+  background-size: 200% auto;
+  background-clip: text;
+  color: transparent;
+  animation: gradient-shift 6s linear infinite;
+}
