@@ -7,7 +7,7 @@ interface CommitsTableProps {
 
 function CommitsTable({ commits }: CommitsTableProps) {
   return (
-    <div className="border-border shadow-glow bg-bg my-1 w-full rounded-lg border p-2">
+    <div className="border-border shadow-glow bg-bg rounded-lg border p-2">
       {commits.length === 0 && (
         <div className="text-text-secondary py-4 text-center">No commits to display</div>
       )}

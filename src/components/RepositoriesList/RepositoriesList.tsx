@@ -10,7 +10,7 @@ function RepositoriesList({ setCommits }: { setCommits: (commits: readonly Commi
   const dispatch = useDispatch();
 
   return (
-    <div className="border-border shadow-glow bg-bg my-1 h-full w-full rounded-lg border p-2">
+    <div className="border-border shadow-glow bg-bg rounded-lg border p-2">
       <ul className="w-full">
         {repositoryState.repositories.map((repository) => (
           <li key={repository}>

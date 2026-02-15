@@ -34,13 +34,13 @@ function RepositoryDropdown({ setCommits }: { setCommits: (commits: readonly Com
   return (
     <div className="relative" ref={dropdownDivRef}>
       <button
-        className="bg-bg hover:bg-bg-light border-border justify-self-start rounded-lg border px-4 py-2 transition-colors duration-200"
+        className="bg-bg hover:bg-bg-light border-border rounded-lg border px-4 py-2 transition-colors duration-200"
         onClick={() => setShowRepositories(!showRepositories)}
       >
         <FolderIcon className="h-5 w-5" />
       </button>
       {showRepositories && (
-        <div className="absolute min-h-120 w-60">
+        <div className="absolute mt-2 min-h-120 w-60">
           <RepositoriesTable setCommits={setCommits} />
         </div>
       )}
