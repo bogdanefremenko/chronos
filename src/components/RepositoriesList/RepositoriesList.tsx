@@ -1,13 +1,11 @@
 import clsx from 'clsx';
-import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../store';
 import { setSelectedRepository } from '../../store/repositorySlice';
-import Commit from '@shared/types/commit';
-import { trpc } from '../../trpc';
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
 
-function RepositoriesList({ setCommits }: { setCommits: (commits: readonly Commit[]) => void }) {
-  const repositoryState = useSelector((state: RootState) => state.repository);
-  const dispatch = useDispatch();
+function RepositoriesList() {
+  const repositoryState = useAppSelector((state: RootState) => state.repository);
+  const dispatch = useAppDispatch();
 
   return (
     <div className="border-border shadow-glow bg-bg rounded-lg border p-2">
@@ -22,9 +20,6 @@ function RepositoriesList({ setCommits }: { setCommits: (commits: readonly Commi
               title={repository}
               onClick={async () => {
                 dispatch(setSelectedRepository(repository));
-
-                const commits = await trpc.getGitHistory.query({ path: repository });
-                setCommits(commits);
               }}
             >
               {repository.split('/').pop()}

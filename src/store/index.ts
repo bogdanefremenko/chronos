@@ -1,9 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
 import repositoryReducer from './repositorySlice';
+import commitsReducer from './commitSlice';
 
 const store = configureStore({
   reducer: {
     repository: repositoryReducer,
+    commits: commitsReducer,
   },
 });
 

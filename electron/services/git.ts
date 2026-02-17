@@ -2,7 +2,11 @@ import simpleGit from 'simple-git';
 import Commit from '../../shared/types/commit';
 import crypto from 'crypto';
 
-export async function getCommits(repositoryPath: string): Promise<readonly Commit[]> {
+export async function getCommits(
+  repositoryPath: string,
+  skip: number = 0,
+  maxCount?: number,
+): Promise<readonly Commit[]> {
   const git = simpleGit(repositoryPath);
 
   const log = await git.log<Commit>({
@@ -16,6 +20,8 @@ export async function getCommits(repositoryPath: string): Promise<readonly Commi
       committer_email: '%ce',
       committer_date: '%cd',
     },
+    maxCount,
+    '--skip': skip,
   });
 
   log.all.forEach((element) => {
@@ -24,4 +30,10 @@ export async function getCommits(repositoryPath: string): Promise<readonly Commi
   });
 
   return log.all;
+}
+
+export async function getCommitsCount(repositoryPath: string): Promise<number> {
+  const git = simpleGit(repositoryPath);
+  const log = await git.raw(['rev-list', '--count', 'HEAD']);
+  return parseInt(log.trim(), 10);
 }

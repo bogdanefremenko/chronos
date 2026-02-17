@@ -1,9 +1,8 @@
 import FolderIcon from '@heroicons/react/24/outline/FolderIcon';
-import Commit from '@shared/types/commit';
 import RepositoriesTable from '../RepositoriesList';
 import { useState, useEffect, useRef } from 'react';
 
-function RepositoryDropdown({ setCommits }: { setCommits: (commits: readonly Commit[]) => void }) {
+function RepositoryDropdown() {
   const [showRepositories, setShowRepositories] = useState(false);
   const dropdownDivRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
@@ -41,7 +40,7 @@ function RepositoryDropdown({ setCommits }: { setCommits: (commits: readonly Com
       </button>
       {showRepositories && (
         <div className="absolute mt-2 min-h-120 w-60">
-          <RepositoriesTable setCommits={setCommits} />
+          <RepositoriesTable />
         </div>
       )}
     </div>

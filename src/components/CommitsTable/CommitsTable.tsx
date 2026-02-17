@@ -1,11 +1,26 @@
+import { useEffect, useRef } from 'react';
+import useCommitsLoader from '../../hooks/useCommitsLoader';
 import CommitRow from './CommitRow';
-import type Commit from '@shared/types/commit';
 
-interface CommitsTableProps {
-  commits: readonly Commit[];
-}
+function CommitsTable() {
+  const { commits, loadMore } = useCommitsLoader();
+  const endSensor = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (!endSensor.current) {
+      return;
+    }
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0]?.isIntersecting) {
+          loadMore();
+        }
+      },
+      { threshold: 1 },
+    );
+    observer.observe(endSensor.current);
+    return () => observer.disconnect();
+  }, [loadMore]);
 
-function CommitsTable({ commits }: CommitsTableProps) {
   return (
     <div className="border-border shadow-glow bg-bg rounded-lg border p-2">
       {commits.length === 0 && (
@@ -24,6 +39,7 @@ function CommitsTable({ commits }: CommitsTableProps) {
           ))}
         </tbody>
       </table>
+      <div ref={endSensor} className="h-1 w-full"></div>
     </div>
   );
 }
