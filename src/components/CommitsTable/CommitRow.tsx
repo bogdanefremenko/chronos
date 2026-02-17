@@ -1,46 +1,56 @@
 import Commit from '@shared/types/commit';
-import CommitCard from '../CommitCard/CommitCard';
-import { useState } from 'react';
-import { createPortal } from 'react-dom';
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
+import { selectCommit } from '../../store/commitSlice';
 
 interface CommitRowProps {
   commit: Commit;
 }
 
 function CommitRow({ commit }: CommitRowProps) {
-  const [hovered, setHovered] = useState(false);
+  const selectedCommit = useAppSelector((state) => {
+    const selectedRepository = state.repository.selectedRepository;
+    if (selectedRepository) {
+      const hash = state.commits.byRepository[selectedRepository]?.selectedCommitHash ?? undefined;
+      if (hash) {
+        return state.commits.byRepository[selectedRepository]?.commits.find((c) => c.hash === hash);
+      }
+    }
+    return undefined;
+  });
+
+  const selectedRepository = useAppSelector((state) => state.repository.selectedRepository);
+
+  const dispatch = useAppDispatch();
+
+  const onCommitSelected = () => {
+    dispatch(selectCommit({ repositoryPath: selectedRepository!, commitHash: commit.hash }));
+  };
 
   return (
-    <>
-      <tr
-        className="hover:bg-bg-light transition-colors duration-30"
-        onMouseEnter={() => setHovered(true)}
-        onMouseLeave={() => setHovered(false)}
-      >
-        <td className="truncate py-1" title={commit.message}>
-          {commit.message}
-        </td>
-        <td className="flex items-center gap-2 truncate py-1 whitespace-nowrap">
-          <img
-            className="ml-2 h-4 w-4 rounded-full"
-            src={commit.author_avatar_url}
-            alt="Author avatar"
-          />
-          {commit.author_name}
-        </td>
-        <td className="truncate py-1 text-right whitespace-nowrap">
-          {formatDate(commit.author_date)}
-        </td>
-        <td className="truncate py-1 text-right whitespace-nowrap">{commit.hash.slice(0, 7)}</td>
-      </tr>
-      {hovered &&
-        createPortal(
-          <div className="fixed">
-            <CommitCard commit={commit} />
-          </div>,
-          document.body,
-        )}
-    </>
+    <tr
+      className={
+        selectedCommit?.hash === commit.hash
+          ? 'bg-bg-light'
+          : 'hover:bg-bg-light transition-colors duration-30'
+      }
+      onClick={onCommitSelected}
+    >
+      <td className="truncate py-1" title={commit.message}>
+        {commit.message}
+      </td>
+      <td className="flex items-center gap-2 truncate py-1 whitespace-nowrap">
+        <img
+          className="ml-2 h-4 w-4 rounded-full"
+          src={commit.author_avatar_url}
+          alt="Author avatar"
+        />
+        {commit.author_name}
+      </td>
+      <td className="truncate py-1 text-right whitespace-nowrap">
+        {formatDate(commit.author_date)}
+      </td>
+      <td className="truncate py-1 text-right whitespace-nowrap">{commit.hash.slice(0, 7)}</td>
+    </tr>
   );
 }
 

@@ -1,7 +1,18 @@
-import Commit from '@shared/types/commit';
+import { useAppSelector } from '../../store/hooks';
 
-const CommitCard = ({ commit }: { commit: Commit }) => {
-  return <div className="border-border bg-bg rounded-lg border p-4">{commit.message}</div>;
-};
+function CommitCard() {
+  const selectedCommit = useAppSelector((state) => {
+    const selectedRepository = state.repository.selectedRepository;
+    if (selectedRepository) {
+      const hash = state.commits.byRepository[selectedRepository]?.selectedCommitHash ?? undefined;
+      if (hash) {
+        return state.commits.byRepository[selectedRepository]?.commits.find((c) => c.hash === hash);
+      }
+    }
+    return undefined;
+  });
+
+  return <div className="border-border bg-bg rounded-lg border p-4">{selectedCommit?.message}</div>;
+}
 
 export default CommitCard;

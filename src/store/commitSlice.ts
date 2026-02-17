@@ -19,7 +19,7 @@ interface CommitsState {
 
 interface RepositoryCommitsState {
   commits: Commit[];
-  selectedCommit: Commit | null;
+  selectedCommitHash: string | null;
   commitsLoadingStatus: CommitsLoadingStatus;
   count: number;
   error: string | null;
@@ -31,7 +31,7 @@ const initialCommitsState: CommitsState = {
 
 const initialRepositoryCommitsState: RepositoryCommitsState = {
   commits: [],
-  selectedCommit: null,
+  selectedCommitHash: null,
   commitsLoadingStatus: commitsLoadingStatus.idle,
   count: 0,
   error: null,
@@ -86,7 +86,15 @@ export const fetchMoreCommits = createAsyncThunk(
 const commitsSlice = createSlice({
   name: 'commits',
   initialState: initialCommitsState,
-  reducers: {},
+  reducers: {
+    selectCommit: (state, action: { payload: { repositoryPath: string; commitHash: string } }) => {
+      const { repositoryPath, commitHash } = action.payload;
+      const repository = state.byRepository[repositoryPath];
+      if (repository) {
+        repository.selectedCommitHash = commitHash;
+      }
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(fetchInitialCommits.pending, (state, action) => {
       const { repositoryPath } = action.meta.arg;
@@ -124,4 +132,5 @@ const commitsSlice = createSlice({
   },
 });
 
+export const { selectCommit } = commitsSlice.actions;
 export default commitsSlice.reducer;
