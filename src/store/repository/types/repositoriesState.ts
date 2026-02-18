@@ -1,4 +1,4 @@
-import { repositoryState } from '.';
+import { initialRepositoryState, repositoryState } from '.';
 
 interface RepositoriesState {
   selectedRepositoryPath: string | null;
@@ -7,7 +7,12 @@ interface RepositoriesState {
 
 const initialRepositoriesState: RepositoriesState = {
   selectedRepositoryPath: null,
-  repositories: {},
+  repositories: {
+    '/Users/bohdan/Documents/Repos/test2drive': { ...initialRepositoryState },
+    '/Users/bohdan/Documents/Repos/chronos': { ...initialRepositoryState },
+    '/Users/bohdan/Documents/Repos/schooltoday': { ...initialRepositoryState },
+    '/Users/bohdan/Documents/Repos/lkjhgnmjnhg': { ...initialRepositoryState },
+  },
 };
 
 export { initialRepositoriesState };
