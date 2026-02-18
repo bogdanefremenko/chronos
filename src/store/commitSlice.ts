@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import Commit from '@shared/types/commit';
 import { trpc } from '../trpc';
 import type { RootState } from './index';
@@ -87,7 +87,10 @@ const commitsSlice = createSlice({
   name: 'commits',
   initialState: initialCommitsState,
   reducers: {
-    selectCommit: (state, action: { payload: { repositoryPath: string; commitHash: string } }) => {
+    selectCommit: (
+      state,
+      action: PayloadAction<{ repositoryPath: string; commitHash: string }>,
+    ) => {
       const { repositoryPath, commitHash } = action.payload;
       const repository = state.byRepository[repositoryPath];
       if (repository) {

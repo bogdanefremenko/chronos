@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface RepositoryState {
   repositories: string[];
@@ -19,13 +19,13 @@ const repositorySlice = createSlice({
   name: 'repository',
   initialState: initialState,
   reducers: {
-    setSelectedRepository(state, action: { payload: string | null }) {
+    setSelectedRepository(state, action: PayloadAction<string | null>) {
       state.selectedRepository = action.payload;
     },
-    addRepository(state, action: { payload: string }) {
+    addRepository(state, action: PayloadAction<string>) {
       state.repositories.push(action.payload);
     },
-    removeRepository(state, action: { payload: string }) {
+    removeRepository(state, action: PayloadAction<string>) {
       state.repositories = state.repositories.filter((repo) => repo !== action.payload);
     },
   },
