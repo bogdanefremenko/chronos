@@ -2,16 +2,7 @@ import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import Commit from '@shared/types/commit';
 import { trpc } from '../trpc';
 import type { RootState } from './index';
-
-export const commitsLoadingStatus = {
-  idle: 'idle',
-  loading: 'loading',
-  loadingMore: 'loadingMore',
-  succeeded: 'succeeded',
-  failed: 'failed',
-} as const;
-
-type CommitsLoadingStatus = (typeof commitsLoadingStatus)[keyof typeof commitsLoadingStatus];
+import { commitsLoadingStatus, CommitsLoadingStatus } from './enums';
 
 interface CommitsState {
   byRepository: Record<string, RepositoryCommitsState>;
