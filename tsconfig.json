@@ -1,28 +1,39 @@
 {
   "compilerOptions": {
-    "target": "es2022",
+    /* Language & Environment */
+    "target": "ES2023",
+    "lib": ["ES2023", "DOM", "DOM.Iterable"],
+    "jsx": "react-jsx",
     "useDefineForClassFields": true,
-    "lib": ["ES2022", "DOM", "DOM.Iterable"],
-    "paths": {
-      "@shared/*": ["./shared/*"]
-    },
-    "module": "ESNext",
-    "skipLibCheck": true,
-    "esModuleInterop": true,
     "moduleDetection": "force",
-    /* Bundler mode */
+
+    /* Modules */
+    "module": "ESNext",
     "moduleResolution": "bundler",
-    "allowImportingTsExtensions": true,
     "resolveJsonModule": true,
+    "allowImportingTsExtensions": true,
+    "esModuleInterop": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react-jsx",
-    /* Linting */
+
+    /* Paths */
+    "paths": {
+      "@shared/*": ["${configDir}/shared/*"]
+    },
+
+    /* Type Checking */
     "strict": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUncheckedIndexedAccess": true,
+    "noUncheckedSideEffectImports": true,
+    "exactOptionalPropertyTypes": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "forceConsistentCasingInFileNames": true,
     "noUnusedLocals": false,
     "noUnusedParameters": false,
-    "noFallthroughCasesInSwitch": true,
-    "noUncheckedIndexedAccess": true
+
+    /* Performance */
+    "skipLibCheck": true
   },
   "include": ["src", "electron", "shared/types"],
   "references": [
