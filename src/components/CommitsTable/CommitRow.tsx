@@ -1,29 +1,19 @@
 import Commit from '@shared/types/commit';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import { selectCommit } from '../../store/commitSlice';
+import selectSelectedCommitInActiveRepository from '../../store/repository/selectors/selectedCommitInActiveRepository';
+import { selectCommitInActiveRepository } from '../../store/repository/slice';
 
 interface CommitRowProps {
   commit: Commit;
 }
 
 function CommitRow({ commit }: CommitRowProps) {
-  const selectedCommit = useAppSelector((state) => {
-    const selectedRepository = state.repository.selectedRepository;
-    if (selectedRepository) {
-      const hash = state.commits.byRepository[selectedRepository]?.selectedCommitHash ?? undefined;
-      if (hash) {
-        return state.commits.byRepository[selectedRepository]?.commits.find((c) => c.hash === hash);
-      }
-    }
-    return undefined;
-  });
-
-  const selectedRepository = useAppSelector((state) => state.repository.selectedRepository);
+  const selectedCommit = useAppSelector(selectSelectedCommitInActiveRepository);
 
   const dispatch = useAppDispatch();
 
   const onCommitSelected = () => {
-    dispatch(selectCommit({ repositoryPath: selectedRepository!, commitHash: commit.hash }));
+    dispatch(selectCommitInActiveRepository(commit.hash));
   };
 
   return (

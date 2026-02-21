@@ -6,7 +6,7 @@ const addRepositoryReducer: CaseReducer<RepositoriesState, PayloadAction<string>
   action,
 ) => {
   state.repositories[action.payload] = {
-    commits: [],
+    commits: {},
     selectedCommitHash: null,
   };
 };

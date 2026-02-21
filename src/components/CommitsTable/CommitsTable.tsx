@@ -1,25 +1,9 @@
-import { useEffect, useRef } from 'react';
-import useCommitsLoader from '../../hooks/useCommitsLoader';
 import CommitRow from './CommitRow';
+import useAppSelector from '../../store/hooks/useAppSelector';
+import selectActiveRepository from '../../store/repository/selectors/activeRepository';
 
 function CommitsTable() {
-  const { commits, loadMore } = useCommitsLoader();
-  const endSensor = useRef<HTMLDivElement>(null);
-  useEffect(() => {
-    if (!endSensor.current) {
-      return;
-    }
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0]?.isIntersecting) {
-          loadMore();
-        }
-      },
-      { threshold: 1 },
-    );
-    observer.observe(endSensor.current);
-    return () => observer.disconnect();
-  }, [loadMore]);
+  const selectedRepository = useAppSelector(selectActiveRepository);
 
   return (
     <div className="border-border shadow-glow bg-bg rounded-lg border p-2">

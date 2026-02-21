@@ -1,13 +1,16 @@
 import type Commit from '@shared/types/commit';
+import { commitsLoadingStatus, CommitsLoadingStatus } from '../../enums';
 
 interface RepositoryState {
-  commits: Commit[];
+  commits: Record<string, Commit>;
   selectedCommitHash: string | null;
+  commitsLoadingStatus: CommitsLoadingStatus;
 }
 
 const initialRepositoryState: RepositoryState = {
-  commits: [],
+  commits: {},
   selectedCommitHash: null,
+  commitsLoadingStatus: commitsLoadingStatus.idle,
 };
 
 export { initialRepositoryState };
