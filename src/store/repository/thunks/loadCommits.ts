@@ -5,8 +5,8 @@ import { initialRepositoryState } from '../types';
 import { commitsLoadingStatus } from '../../enums';
 import Commit from '@shared/types/commit';
 
-const initialCommitsLoadThunk = createAsyncThunk(
-  'repository/initialCommitsLoad',
+const loadCommitsThunk = createAsyncThunk(
+  'repository/loadCommits',
   async ({ repositoryPath }: { repositoryPath: string }) => {
     const commits = await trpc.getGitCommits.query({
       repositoryPath: repositoryPath,
@@ -16,8 +16,8 @@ const initialCommitsLoadThunk = createAsyncThunk(
   },
 );
 
-const addinitialCommitsLoadThunkCases = (builder: ActionReducerMapBuilder<RepositoriesState>) => {
-  builder.addCase(initialCommitsLoadThunk.pending, (state, action) => {
+const addLoadCommitsThunkCases = (builder: ActionReducerMapBuilder<RepositoriesState>) => {
+  builder.addCase(loadCommitsThunk.pending, (state, action) => {
     const { repositoryPath } = action.meta.arg;
     state.repositories[repositoryPath] = {
       ...initialRepositoryState,
@@ -25,7 +25,7 @@ const addinitialCommitsLoadThunkCases = (builder: ActionReducerMapBuilder<Reposi
     };
   });
 
-  builder.addCase(initialCommitsLoadThunk.fulfilled, (state, action) => {
+  builder.addCase(loadCommitsThunk.fulfilled, (state, action) => {
     const commits = action.payload;
     const { repositoryPath } = action.meta.arg;
     const repository = state.repositories[repositoryPath];
@@ -33,16 +33,25 @@ const addinitialCommitsLoadThunkCases = (builder: ActionReducerMapBuilder<Reposi
       throw Error();
     }
 
-    repository;
-
     const commitsRecord = commits.reduce<Record<string, Commit>>((commits, commit) => {
       commits[commit.hash] = commit;
       return commits;
     }, {});
 
     repository.commits = commitsRecord;
+    repository.commitsLoadingStatus = commitsLoadingStatus.succeeded;
+  });
+
+  builder.addCase(loadCommitsThunk.rejected, (state, action) => {
+    const { repositoryPath } = action.meta.arg;
+    const repository = state.repositories[repositoryPath];
+    if (!repository) {
+      throw Error();
+    }
+
+    repository.commitsLoadingStatus = commitsLoadingStatus.failed;
   });
 };
 
-export { addinitialCommitsLoadThunkCases };
-export default initialCommitsLoadThunk;
+export { addLoadCommitsThunkCases };
+export default loadCommitsThunk;

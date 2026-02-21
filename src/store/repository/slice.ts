@@ -6,7 +6,7 @@ import {
   selectCommitInActiveRepositoryReducer,
   selectRepositoryReducer,
 } from './reducers';
-import { addinitialCommitsLoadThunkCases } from './thunks/initialCommitsLoad';
+import { addLoadCommitsThunkCases } from './thunks/loadCommits';
 
 const repositories = createSlice({
   name: 'repositories',
@@ -18,7 +18,7 @@ const repositories = createSlice({
     selectCommitInActiveRepository: selectCommitInActiveRepositoryReducer,
   },
   extraReducers: (builder) => {
-    addinitialCommitsLoadThunkCases(builder);
+    addLoadCommitsThunkCases(builder);
   },
 });
 

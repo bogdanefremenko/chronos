@@ -1,1 +1,1 @@
-export { default as initialCommitsLoadThunk } from './initialCommitsLoad';
+export { default as loadCommitsThunk } from './loadCommits';
