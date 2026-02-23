@@ -33,12 +33,9 @@ const addLoadCommitsThunkCases = (builder: ActionReducerMapBuilder<RepositoriesS
       throw Error();
     }
 
-    const commitsRecord = commits.reduce<Record<string, Commit>>((commits, commit) => {
-      commits[commit.hash] = commit;
-      return commits;
-    }, {});
+    const commitsMap = new Map<string, Commit>(commits.map((commit) => [commit.hash, commit]));
 
-    repository.commits = commitsRecord;
+    repository.commits = commitsMap;
     repository.commitsLoadingStatus = commitsLoadingStatus.succeeded;
   });
 

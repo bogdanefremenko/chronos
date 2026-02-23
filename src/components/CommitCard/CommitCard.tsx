@@ -7,7 +7,7 @@ function CommitCard() {
     return null;
   }
 
-  const selectedCommit = activeRepository.commits[activeRepository.selectedCommitHash];
+  const selectedCommit = activeRepository.commits.get(activeRepository.selectedCommitHash);
 
   return <div className="border-border bg-bg rounded-lg border p-4">{selectedCommit?.message}</div>;
 }

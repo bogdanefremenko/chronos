@@ -1,8 +1,11 @@
 import CommitCard from './components/CommitCard';
 import CommitsTable from './components/CommitsTable';
 import RepositoryDropdown from './components/RepositoryDropdown';
+import useCommitsSync from './hooks/useCommitsSync';
 
 function App() {
+  useCommitsSync();
+
   return (
     <div className="flex h-screen flex-col">
       <div className="grid w-full grid-cols-3 items-center p-4">

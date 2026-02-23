@@ -7,7 +7,7 @@ const selectSelectedCommitInActiveRepository = (state: RootState) => {
     return null;
   }
 
-  return activeRepository.commits[activeRepository.selectedCommitHash] ?? null;
+  return activeRepository.commits.get(activeRepository.selectedCommitHash) ?? null;
 };
 
 export default selectSelectedCommitInActiveRepository;
